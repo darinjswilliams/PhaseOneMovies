@@ -36,8 +36,6 @@ public final class NetworkClientAPI {
         Uri builtUri = Uri.parse(Constants.MOVIEDB_BASE_URL + sortByQuery).buildUpon()
                 .appendQueryParameter(consumerKey, consumerSecret)
                 .build();
-//                .appendQueryParameter(Constants.SORT_BY, sortByQuery)
-//                .build();
 
         Log.i(TAG, "NetworkClientAPI: buildUrl: " + builtUri);
         URL url = null;
