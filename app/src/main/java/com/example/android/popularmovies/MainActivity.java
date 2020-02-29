@@ -3,11 +3,14 @@ package com.example.android.popularmovies;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.ButterKnife;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.constants.Constants;
@@ -23,6 +28,9 @@ import com.example.android.customarrayadapter.MyPopularMovieAdapter;
 import com.example.android.networkUtils.NetworkClientAPI;
 import com.example.android.networkUtils.ParseJsonUtils;
 import com.example.android.customarrayadapter.PopularMovies;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.w3c.dom.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements MyPopularMovieAda
     private MyPopularMovieAdapter mPopularmoviesAdapter;
     private static MyPopularMovieAdapter.MyPopularMovieAdapterOnClickHandler myClickHandler;
     private RecyclerView myRecyclerView;
+    private RelativeLayout mRelativeLayout;
 
 
     @Override
@@ -43,11 +52,13 @@ public class MainActivity extends AppCompatActivity implements MyPopularMovieAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //ToolBar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         myRecyclerView = (RecyclerView) findViewById(R.id.myRecycler);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.relativeLayoutId);
 
         /**
          * SET TO GRIDLAYOUT WITH A SPAN OF 2 COLUMNS
@@ -115,7 +126,25 @@ public class MainActivity extends AppCompatActivity implements MyPopularMovieAda
             return true;
         } else {
             Log.v(TAG, "Internet Connection Not Present");
-            Toast.makeText(context,"Internet Connection Not Present", Toast.LENGTH_LONG).show();
+
+            Snackbar snackbar = Snackbar
+                    .make(mRelativeLayout, "Internet Connection Not Present", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener(){
+                        public void onClick(View view){
+
+                        }
+
+                    });
+
+            snackbar.setActionTextColor(Color.RED);
+
+            //Changing Action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(Color.YELLOW);
+            snackbar.show();
+
+
             return false;
         }
     }

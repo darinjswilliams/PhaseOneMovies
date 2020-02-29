@@ -73,7 +73,6 @@ public class MyPopularMovieAdapter extends RecyclerView.Adapter<MyPopularMovieAd
             super(itemView);
 
             popularMovieImage = (ImageView) itemView.findViewById(R.id.myImageView);
-            //TODO ADD CLICK Listener
             itemView.setOnClickListener(this);
 
         }
